@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1069141597334",
+    "firebase_url": "https://myapp-483c6-default-rtdb.firebaseio.com",
+    "project_id": "myapp-483c6",
+    "storage_bucket": "myapp-483c6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1069141597334:android:7a75c5c4731120026e36b7",
+        "android_client_info": {
+          "package_name": "com.emrebodur.myapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1069141597334-3tk4dp6q94podtaimq20mltbv8n73srs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCFWHCWrxXWYWfdguzy3T819NPHhmYdAY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1069141597334-3tk4dp6q94podtaimq20mltbv8n73srs.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1069141597334-o9hcg80h9en5uvadf1d4ftqe4s0t2olv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.emrebodur.myapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
