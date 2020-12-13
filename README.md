@@ -1,6 +1,6 @@
 # Cüzdanım Mobil Uygulaması
 
-Sakarya Üniversitesi Bilgisayar Mühendisliği Mobil Uygulam Geliştirme Dersi Projesi<br />
+Sakarya Üniversitesi Bilgisayar Mühendisliği Bölümü Mobil Uygulama Geliştirme Dersi Projesi<br />
 React Native ile kodlanan Cüzdanım mobil uygulaması ile Gelir-Gider takibi yapabilirsiniz.<br />
 
 ### Website:
