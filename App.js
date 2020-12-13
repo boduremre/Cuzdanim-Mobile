@@ -1,11 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function App() {
   return (
     <View style={styles.container}>
-		<Text style={styles.textStyle}>Cüzdanım</Text>
+	  <Ionicons name="md-wallet-sharp" size={48} color="black" />
+	  <Text style={styles.textStyle}>Cüzdanım</Text>
       <Text>Cüzdanım mobil uygulaması ile Gelir-Gider takibi yapabilirsiniz.</Text>
       <StatusBar style="auto" />
     </View>
