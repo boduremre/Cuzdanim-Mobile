@@ -3,6 +3,7 @@ import { View, SafeAreaView, Text, FlatList } from "react-native";
 import prettyTime from "../utils/PrettyTime";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { ListItem, Avatar } from "react-native-elements";
+import * as WebBrowser from "expo-web-browser";
 
 const Headlines = ({ navigation }) => {
   const [headlines, setHeadlines] = useState({});
@@ -33,16 +34,17 @@ const Headlines = ({ navigation }) => {
     return parts.join(" - ");
   }
 
+  const _handlePressButtonAsync = async (url) => {
+    await WebBrowser.openBrowserAsync(url);
+  };
+
   function renderItem({ item }) {
     return (
       <ListItem
         key={item}
         bottomDivider
         onPress={() => {
-          navigation.navigate("NewsWebView", {
-            url: item.url,
-            title: item.title,
-          });
+          _handlePressButtonAsync(item.url);
         }}
       >
         <Avatar size="large" source={{ uri: item.urlToImage }} />
