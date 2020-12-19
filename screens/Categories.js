@@ -3,7 +3,7 @@ import { FlatList, SafeAreaView } from "react-native";
 import { ListItem, Avatar } from "react-native-elements";
 import firebase from "../Firebase";
 
-export default class Fetch extends Component {
+export default class Categories extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,11 +29,9 @@ export default class Fetch extends Component {
   renderItem({ item }) {
     return (
       <ListItem key={item} bottomDivider>
-        <Avatar rounded title={item.cat} />
         <ListItem.Content>
           <ListItem.Title>{item.cat}</ListItem.Title>
         </ListItem.Content>
-        <ListItem.Chevron />
       </ListItem>
     );
   }
