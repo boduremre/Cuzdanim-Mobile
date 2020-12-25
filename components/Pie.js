@@ -1,34 +1,30 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Text } from "react-native";
-import Pie from "react-native-pie";
+import { StyleSheet, ScrollView ,Text, View } from 'react-native';
+import PieChart from 'react-native-pie-chart';
 
 export default class Pie extends Component {
   render() {
+    const chart_wh = 250;
+    const series = [123, 321, 123, 789, 537];
+    const sliceColor = ['#F44336','#2196F3','#FFEB3B', '#4CAF50', '#FF9800'];
+
     return (
       <View style={styles.container}>
-        <Pie
-          radius={100}
-          series={[10, 20, 30, 40]}
-          colors={["red", "lime", "blue", "yellow"]}
-        />
-        <Pie
-          radius={100}
-          innerRadius={60}
-          series={[10, 20, 30, 40]}
-          colors={["#f00", "#0f0", "#00f", "#ff0"]}
-        />
-        <View>
-          <Pie
-            radius={50}
-            innerRadius={45}
-            series={[60]}
-            colors={["#f00"]}
-            backgroundColor="#ddd"
+          <Text style={styles.title}>Basic</Text>
+          <PieChart
+            chart_wh={chart_wh}
+            series={series}
+            sliceColor={sliceColor}
           />
-          <View style={styles.gauge}>
-            <Text style={styles.gaugeText}>60%</Text>
-          </View>
-        </View>
+          <Text style={styles.title}>Doughnut</Text>
+          <PieChart
+            chart_wh={chart_wh}
+            series={series}
+            sliceColor={sliceColor}
+            doughnut={true}
+            coverRadius={0.45}
+            coverFill={'#FFF'}
+          />
       </View>
     );
   }
