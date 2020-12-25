@@ -1,13 +1,13 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import AppBtn from "./AppBtn";
+import CalcBtn from "./CalcBtn";
 import IconBtn from "./IconBtn";
 
 function Keyboard({ handlePress }) {
   return (
     <View style={styles.container}>
       <View style={styles.subContainer}>
-        <AppBtn
+        <CalcBtn
           title="c"
           color="primary"
           onPress={() => handlePress("allClear")}
@@ -21,10 +21,10 @@ function Keyboard({ handlePress }) {
         />
       </View>
       <View style={styles.subContainer}>
-        <AppBtn title="7" onPress={() => handlePress("number", "7")} />
-        <AppBtn title="8" onPress={() => handlePress("number", "8")} />
-        <AppBtn title="9" onPress={() => handlePress("number", "9")} />
-        <AppBtn
+        <CalcBtn title="7" onPress={() => handlePress("number", "7")} />
+        <CalcBtn title="8" onPress={() => handlePress("number", "8")} />
+        <CalcBtn title="9" onPress={() => handlePress("number", "9")} />
+        <CalcBtn
           title="×"
           color="primary"
           btnColor="secondary"
@@ -32,9 +32,9 @@ function Keyboard({ handlePress }) {
         />
       </View>
       <View style={styles.subContainer}>
-        <AppBtn title="4" onPress={() => handlePress("number", "4")} />
-        <AppBtn title="5" onPress={() => handlePress("number", "5")} />
-        <AppBtn title="6" onPress={() => handlePress("number", "6")} />
+        <CalcBtn title="4" onPress={() => handlePress("number", "4")} />
+        <CalcBtn title="5" onPress={() => handlePress("number", "5")} />
+        <CalcBtn title="6" onPress={() => handlePress("number", "6")} />
         <IconBtn
           title="minus"
           btnColor="secondary"
@@ -42,9 +42,9 @@ function Keyboard({ handlePress }) {
         />
       </View>
       <View style={styles.subContainer}>
-        <AppBtn title="1" onPress={() => handlePress("number", "1")} />
-        <AppBtn title="2" onPress={() => handlePress("number", "2")} />
-        <AppBtn title="3" onPress={() => handlePress("number", "3")} />
+        <CalcBtn title="1" onPress={() => handlePress("number", "1")} />
+        <CalcBtn title="2" onPress={() => handlePress("number", "2")} />
+        <CalcBtn title="3" onPress={() => handlePress("number", "3")} />
         <IconBtn
           title="plus"
           btnColor="secondary"
@@ -53,8 +53,8 @@ function Keyboard({ handlePress }) {
       </View>
       <View style={styles.subContainer}>
         <IconBtn title="calculator" onPress={() => handlePress("calculator")} />
-        <AppBtn title="0" onPress={() => handlePress("number", "0")} />
-        <AppBtn title="." onPress={() => handlePress("number", ".")} />
+        <CalcBtn title="0" onPress={() => handlePress("number", "0")} />
+        <CalcBtn title="." onPress={() => handlePress("number", ".")} />
         <IconBtn
           title="equal"
           btnColor="warning"

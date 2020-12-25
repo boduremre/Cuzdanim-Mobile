@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import Constants from "expo-constants";
-
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Keyboard from "../components/Keyboard";
 import colors from "../config/colors";
 
-function Calculator() {
+function Calculator({ navigation }) {
   const [result, setResult] = useState("0");
   const [expression, setExpression] = useState(["0"]);
   const [isEqualTapped, setIsEqualTapped] = useState(false);
@@ -29,7 +29,7 @@ function Calculator() {
   };
   const handleNumber = (value) => {
     let txt = [...expression];
-    const displayType = txt.join(""); // for future if you wanna give width to input field
+    const displayType = txt.join("");
     if (isEqualTapped) {
       txt = handleActiveEqual(value);
     }
@@ -245,7 +245,16 @@ function Calculator() {
   return (
     <View style={styles.container}>
       <View style={styles.display}>
-        <View style={styles.history}></View>
+        <View style={styles.history}>
+          <TouchableOpacity
+            style={[styles.button]}
+            onPress={() => {
+              navigation.toggleDrawer();
+            }}
+          >
+            <MaterialCommunityIcons name="menu" color="white" size={27} />
+          </TouchableOpacity>
+        </View>
         <View style={styles.expression}>
           <Text style={styles.expressionText}>{expression}</Text>
         </View>
