@@ -1,15 +1,60 @@
 import React from "react";
-import { StyleSheet, View, Switch } from "react-native";
+import { StyleSheet, View, Switch, Platform } from "react-native";
 import Firebase from "../Firebase";
 import prettyDate from "../utils/PrettyDate";
 import { Input, Text, Icon, Card, Button } from "react-native-elements";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
+import * as Notifications from "expo-notifications";
+import * as Permissions from "expo-permissions";
+import Constants from "expo-constants";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 export default function AddTransactionScreen({ navigation, route }) {
   const { screenTitle, key, currency } = route.params;
   const [amount, setAmount] = React.useState();
   const [desc, setDesc] = React.useState();
+
+  const [expoPushToken, setExpoPushToken] = React.useState("");
+  const [notification, setNotification] = React.useState(false);
+  const notificationListener = React.useRef();
+  const responseListener = React.useRef();
+
+  React.useEffect(() => {
+    registerForPushNotificationsAsync().then((token) =>
+      setExpoPushToken(token)
+    );
+
+    notificationListener.current = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        setNotification(notification);
+      }
+    );
+
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(
+      (response) => {
+        //console.log(response);
+      }
+    );
+
+    return () => {
+      Notifications.removeNotificationSubscription(notificationListener);
+      Notifications.removeNotificationSubscription(responseListener);
+    };
+  }, []);
+
+  React.useEffect(() => {
+    navigation.setOptions({
+      headerTitle: screenTitle + " (" + currency + ")",
+    });
+  }, []);
 
   //Switch
   const [isEnabled, setIsEnabled] = React.useState(false);
@@ -38,12 +83,6 @@ export default function AddTransactionScreen({ navigation, route }) {
     showMode("date");
   };
 
-  React.useEffect(() => {
-    navigation.setOptions({
-      headerTitle: screenTitle + " (" + currency + ")",
-    });
-  }, []);
-
   const save = () => {
     var userId = Firebase.auth().currentUser.uid;
 
@@ -56,13 +95,14 @@ export default function AddTransactionScreen({ navigation, route }) {
         desc: desc,
         type: isEnabled ? "gelir" : "gider",
       })
-      .then(() => {
-        alert("Hesap hareketi eklendi! Yönlendiriliyorsunuz!");
+      .then(async () => {
         navigation.navigate("HesapDetaylari", {
           screenTitle: screenTitle,
           key: key,
           currency: currency,
         });
+
+        await sendPushNotification(expoPushToken, isEnabled);
       })
       .catch((error) => {
         console.log("error ", error);
@@ -161,6 +201,73 @@ export default function AddTransactionScreen({ navigation, route }) {
     </View>
   );
 }
+
+async function schedulePushNotification() {
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: "Cüzdanım 📣",
+      body: "Hesabınıza para girişi oldu!",
+      data: { data: "goes here" },
+    },
+    trigger: { seconds: 1 },
+  });
+}
+
+async function sendPushNotification(expoPushToken, isEnabled1) {
+  const message = {
+    to: expoPushToken,
+    sound: "default",
+    title: "Cüzdanım 📣",
+    body: isEnabled1
+      ? "Hesabınıza para girişi oldu!"
+      : "Hesabınızdan para çıkışı oldu!",
+    data: { data: "goes here" },
+  };
+
+  await fetch("https://exp.host/--/api/v2/push/send", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Accept-encoding": "gzip, deflate",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(message),
+  });
+}
+
+async function registerForPushNotificationsAsync() {
+  let token;
+  if (Constants.isDevice) {
+    const { status: existingStatus } = await Permissions.getAsync(
+      Permissions.NOTIFICATIONS
+    );
+    let finalStatus = existingStatus;
+    if (existingStatus !== "granted") {
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
+    }
+    if (finalStatus !== "granted") {
+      alert("Failed to get push token for push notification!");
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.log(token);
+  } else {
+    alert("Must use physical device for Push Notifications");
+  }
+
+  if (Platform.OS === "android") {
+    Notifications.setNotificationChannelAsync("default", {
+      name: "default",
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: "#FF231F7C",
+    });
+  }
+
+  return token;
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
