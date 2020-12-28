@@ -14,6 +14,7 @@ import Home from "../screens/Home";
 import CategoriesScreen from "../screens/Categories";
 import TransactionsScreen from "../screens/Transactions";
 import AddTransactionScreen from "../screens/AddTransaction";
+import CalculatorScreen from "../screens/Calculator";
 
 const AuthStack = createStackNavigator();
 const AuthStackScreen = () => (
@@ -118,6 +119,15 @@ const DrawerScreen = () => (
       options={{
         drawerIcon: () => (
           <Ionicons name="md-pricetags-outline" size={24} color="black" />
+        ),
+      }}
+    />
+    <Drawer.Screen
+      name="Hesap Makinesi"
+      component={CalculatorScreen}
+      options={{
+        drawerIcon: () => (
+          <Ionicons name="md-calculator-outline" size={24} color="black" />
         ),
       }}
     />
