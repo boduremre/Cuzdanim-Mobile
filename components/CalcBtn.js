@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity, Text } from "react-native";
-import colors from "../config/colors";
+import colors from "../styles/Colors";
 
 const AppBtn = ({
   title,

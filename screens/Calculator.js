@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import Constants from "expo-constants";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Keyboard from "../components/Keyboard";
-import colors from "../config/colors";
+import colors from "../styles/Colors";
 
 function Calculator({ navigation }) {
   const [result, setResult] = useState("0");
