@@ -6,7 +6,7 @@ import { BarChart } from "react-native-chart-kit";
 const Chart = (props) => {
   // props
   const {
-    data,
+    list,
     width,
     symbol,
     fromZero,
@@ -15,6 +15,27 @@ const Chart = (props) => {
     withVerticalLabels,
     withHorizontalLabels,
   } = props;
+
+  var chartLabels = [];
+  var chartData = [];
+
+  // gelen veriler chart datasına dönüştürülüyor.
+  list.forEach(function (number) {
+    chartLabels.push(number.name);
+    number.name == "Dolar"
+      ? chartData.push(number.total * 7.4063)
+      : chartData.push(number.total);
+  });
+
+  // Chart verisi
+  const data = {
+    labels: chartLabels,
+    datasets: [
+      {
+        data: chartData,
+      },
+    ],
+  };
 
   // çubuk grafiği ayarları
   const chartConfig = {

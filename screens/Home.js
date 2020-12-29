@@ -13,17 +13,6 @@ import TCMBDovizKurlari from "../components/TCMBDovizKurlari";
 
 export default function Home({ navigation }) {
   const [list, setList] = React.useState([]);
-  console.log(list[0].name);
-
-  // Chart data
-  const data = {
-    labels: [list[0].name, list[1].name],
-    datasets: [
-      {
-        data: [list[0].total, list[1].total * 7.4063],
-      },
-    ],
-  };
 
   React.useEffect(() => {
     let userId = firebase.auth().currentUser.uid;
@@ -82,7 +71,7 @@ export default function Home({ navigation }) {
       <Card>
         <Card.Title></Card.Title>
         <Chart
-          data={data}
+          list={list}
           width={Dimensions.get("window").width - 100}
           symbol="₺"
           fromZero={true}
