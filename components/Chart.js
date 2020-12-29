@@ -1,27 +1,44 @@
+// Detaylı Bilgi: https://www.npmjs.com/package/react-native-chart-kit
 import React from "react";
-import { View, Dimensions } from "react-native";
-import { StackedBarChart } from "react-native-chart-kit";
+import { View } from "react-native";
+import { BarChart } from "react-native-chart-kit";
 
 const Chart = (props) => {
+  // props
+  const {
+    data,
+    width,
+    symbol,
+    fromZero,
+    showBarTops,
+    showValuesOnTopOfBars,
+    withVerticalLabels,
+    withHorizontalLabels,
+  } = props;
+
+  // çubuk grafiği ayarları
+  const chartConfig = {
+    backgroundGradientFrom: "#fff",
+    backgroundGradientTo: "#fff",
+    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+    barPercentage: 2.5,
+    fillShadowGradient: "black",
+    fillShadowGradientOpacity: 0.4,
+  };
+
   return (
     <View>
-      <StackedBarChart
-        data={{
-          labels: ["Gelir", "Gider"],
-          data: [[11282.47], [10124.46]],
-          barColors: ["#dfe4ea", "#dfe4ea", "#dfe4ea"],
-        }}
-        showLegend="false"
-        width={Dimensions.get("window").width - 100}
+      <BarChart
+        withVerticalLabels={withVerticalLabels}
+        withHorizontalLabels={withHorizontalLabels}
+        fromZero={fromZero}
+        showBarTops={showBarTops}
+        showValuesOnTopOfBars={showValuesOnTopOfBars}
+        data={data}
+        yAxisLabel={symbol}
+        width={width}
         height={220}
-        chartConfig={{
-          backgroundColor: "fff",
-          backgroundGradientFrom: "#fff",
-          backgroundGradientTo: "#fff",
-          decimalPlaces: 2,
-          color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-          style: {},
-        }}
+        chartConfig={chartConfig}
         style={{ alignItems: "center", justifyContent: "center" }}
       />
     </View>

@@ -1,11 +1,29 @@
 import React from "react";
-import { FlatList, SafeAreaView, StyleSheet, Text } from "react-native";
+import {
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  Dimensions,
+} from "react-native";
 import { ListItem, Avatar, Card } from "react-native-elements";
 import firebase from "../Firebase";
 import Chart from "../components/Chart";
+import TCMBDovizKurlari from "../components/TCMBDovizKurlari";
 
 export default function Home({ navigation }) {
   const [list, setList] = React.useState([]);
+  console.log(list[0].name);
+
+  // Chart data
+  const data = {
+    labels: [list[0].name, list[1].name],
+    datasets: [
+      {
+        data: [list[0].total, list[1].total * 7.4063],
+      },
+    ],
+  };
 
   React.useEffect(() => {
     let userId = firebase.auth().currentUser.uid;
@@ -60,9 +78,19 @@ export default function Home({ navigation }) {
 
   return (
     <SafeAreaView>
+      <TCMBDovizKurlari />
       <Card>
         <Card.Title></Card.Title>
-        <Chart />
+        <Chart
+          data={data}
+          width={Dimensions.get("window").width - 100}
+          symbol="₺"
+          fromZero={true}
+          showBarTops={true}
+          showValuesOnTopOfBars={true}
+          withVerticalLabels={true}
+          withHorizontalLabels={true}
+        />
       </Card>
       <Card>
         <Card.Title>Hesaplarım</Card.Title>
