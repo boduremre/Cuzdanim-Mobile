@@ -81,12 +81,11 @@ export default class Login extends React.Component {
     } else {
       return (
         <View style={{ flex: 1, backgroundColor: "white" }}>
-          <View>
+          <View style={{ margin: 20 }}>
             <Text style={styles.logoText}>Cüzdanım</Text>
             <Input
               placeholder="E-posta adresi"
               style={{
-                width: width - 20,
                 paddingVertical: 5,
                 borderBottomWidth: 0.5,
                 borderColor: "lightgray",
@@ -103,7 +102,6 @@ export default class Login extends React.Component {
             <Input
               placeholder="Şifre"
               style={{
-                width: width - 20,
                 paddingVertical: 5,
                 borderBottomWidth: 0.5,
                 borderColor: "lightgray",
