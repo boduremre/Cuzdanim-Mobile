@@ -16,7 +16,7 @@ export default {
     fontSize: 40,
     fontWeight: "800",
     marginTop: 10,
-    marginBottom: 10,
+    marginBottom: 25,
     textAlign: "center",
   },
   loginFormView: {

@@ -91,6 +91,7 @@ export default class Login extends React.Component {
               marginTop: 200,
               justifyContent: "center",
               alignItems: "center",
+              margin: 25,
             }}
           >
             <Icon
