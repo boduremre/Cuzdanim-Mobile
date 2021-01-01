@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import { Icon, Button } from "react-native-elements";
+import { Icon } from "react-native-elements";
 import Firebase from "../Firebase";
 import prettyDate from "../utils/PrettyDate";
 import { StackActions } from "@react-navigation/native";
@@ -58,7 +58,7 @@ export default class Login extends React.Component {
           .ref("hesaplar/" + uid + "/")
           .push({
             currency: "TL",
-            createdAt: prettyDate(), //firebase.database.ServerValue.TIMESTAMP,
+            createdAt: prettyDate(),
             desc: "Nakit Hesabı",
             name: "Nakit",
             total: 0,
@@ -90,15 +90,33 @@ export default class Login extends React.Component {
       );
     } else {
       return (
-        <View style={{ flex: 1, backgroundColor: "white" }}>
-          <View style={{ width: width, height: 44 }} />
-          <View style={{ width: width, alignItems: "center", padding: 25 }}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: "white",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <View style={{ width: width, height: 15 }} />
+          <View style={{ width: width, alignItems: "center" }}>
             <Icon
               name="wallet"
               size={50}
               type="material-community"
               color="#00aced"
             />
+            <Text
+              style={{
+                textAlign: "center",
+                fontWeight: "bold",
+                fontSize: 40,
+                marginTop: 10,
+                marginBottom: 10,
+              }}
+            >
+              Cüzdanım
+            </Text>
           </View>
           <View style={{ width: width, paddingLeft: 20, marginTop: 20 }}>
             <Text style={{ fontSize: 24, fontWeight: "bold" }}>Kayıt Ol</Text>
