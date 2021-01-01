@@ -7,12 +7,12 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import { Input, Button } from "react-native-elements";
-import Firebase from "../Firebase";
 import { StackActions } from "@react-navigation/native";
+import { Input, Button, Icon } from "react-native-elements";
+import Firebase from "../Firebase";
 import styles from "../styles/LoginStyle";
 
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window").width;
 
 export default class Login extends React.Component {
   state = {
@@ -60,7 +60,7 @@ export default class Login extends React.Component {
   };
 
   goSignUp = () => {
-    const pushAction = StackActions.push("SignUp");
+    const pushAction = StackActions.push("CreateAccount");
     this.props.navigation.dispatch(pushAction);
   };
 
@@ -80,8 +80,25 @@ export default class Login extends React.Component {
       );
     } else {
       return (
-        <View style={{ flex: 1, backgroundColor: "white" }}>
-          <View style={{ margin: 20 }}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: "white",
+          }}
+        >
+          <View
+            style={{
+              marginTop: 200,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Icon
+              name="wallet"
+              size={50}
+              type="material-community"
+              color="#00aced"
+            />
             <Text style={styles.logoText}>Cüzdanım</Text>
             <Input
               placeholder="E-posta adresi"
@@ -90,6 +107,7 @@ export default class Login extends React.Component {
                 borderBottomWidth: 0.5,
                 borderColor: "lightgray",
                 color: "#00aced",
+                width: width,
               }}
               errorStyle={{ color: "red" }}
               underlineColorAndroid="transparent"
@@ -118,7 +136,7 @@ export default class Login extends React.Component {
             <Button
               onPress={() => this.loginApp()}
               title="Giriş"
-              buttonStyle={{ width: width - 30, alignItems: "center" }}
+              buttonStyle={{ width: width, alignItems: "center" }}
             />
             <TouchableOpacity
               onPress={() => this.goSignUp()}
