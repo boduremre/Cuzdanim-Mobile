@@ -77,12 +77,7 @@ const Headlines = ({ navigation }) => {
         data={headlines.articles}
         renderItem={renderItem}
         keyExtractor={(item) => item.title}
-        onRefresh={() => {
-          setRefreshing(true).then(() => {
-            this.fetchData();
-          });
-        }}
-        refreshing={refreshing}
+        refreshing={false}
       />
     </SafeAreaView>
   );
