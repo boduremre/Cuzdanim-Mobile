@@ -15,8 +15,8 @@ export default {
   logoText: {
     fontSize: 40,
     fontWeight: "800",
-    marginTop: 250,
-    marginBottom: 30,
+    marginTop: 10,
+    marginBottom: 10,
     textAlign: "center",
   },
   loginFormView: {
