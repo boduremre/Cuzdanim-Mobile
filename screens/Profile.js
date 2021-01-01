@@ -154,7 +154,11 @@ export default function Profile({ navigation }) {
             <Text style={styles.menuItemText}>Hakkında</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => signOut()}>
+        <TouchableOpacity
+          onPress={() => {
+            Firebase.auth().signOut();
+          }}
+        >
           <View style={styles.menuItem}>
             <Icon name="logout" color="steelblue" size={25} />
             <Text style={styles.menuItemText}>Çıkış</Text>
