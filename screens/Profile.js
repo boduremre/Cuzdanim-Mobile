@@ -1,9 +1,8 @@
-// kullanıcının bilgilerini görüntüleyebileceği
-// admin kullanıcının kelime ekleme ekranına erişebilceği
-// ve şifre değiştirilen ekran
 import React from "react";
-import { AuthContext } from "../context";
+import Firebase from "../Firebase";
 import { Text, Avatar, Card } from "react-native-elements";
+import * as WebBrowser from "expo-web-browser";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {
   StyleSheet,
   Share,
@@ -15,18 +14,14 @@ import {
   Button,
   Dimensions,
 } from "react-native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import Firebase from "../Firebase";
 
 export default function Profile({ navigation }) {
-  const { signOut } = React.useContext(AuthContext); // çıkış fonk contextten eriş
-  const [loading, setLoading] = React.useState(true); // yükleniyor iconu için
-  const [userRole, setUserRole] = React.useState(false); // kullanıcı rolünü tutan state
-  const [currentPassword, setCurrentPassword] = React.useState(); // mevcut şifre state
-  const [newPassword, setNewPassword] = React.useState(); // yeni şifre tutacak state
+  const [loading, setLoading] = React.useState(true);
+  const [userRole, setUserRole] = React.useState(false);
+  const [currentPassword, setCurrentPassword] = React.useState();
+  const [newPassword, setNewPassword] = React.useState();
 
   React.useEffect(() => {
-    // kullanıcı rolünü getir
     Firebase.database()
       .ref("users/" + Firebase.auth().currentUser.uid)
       .on("value", (snapshot) => {
@@ -35,63 +30,38 @@ export default function Profile({ navigation }) {
         }
       });
 
-    // yükleniyor resmini gizle
     setLoading(false);
-
-    // Üst barda başlık bilgisi değişiyor
-    // üst bara çekmece menüyü açacak buton ekleniyor.
-    navigation.setOptions({
-      title: "Profil",
-      headerRight: () => (
-        <TouchableOpacity
-          style={{ paddingRight: 20 }}
-          onPress={() => {
-            // çekmece(sol) menüsünü aç kapat butonu
-            navigation.toggleDrawer();
-          }}
-        >
-          <Icon name="menu" size={18} color="blue" />
-        </TouchableOpacity>
-      ),
-    });
   }, []);
 
-  // paylaşım butonu basıldığında paylaşım ekranı gelir.
   const onShare = async () => {
     try {
       const result = await Share.share({
         message:
-          "Finansal Terimler Sözlüğü çok güzel kesinlikle denemelisin.\n\nhttp://www.google.com",
+          "Cüzdanım uygulaması süper bir uygulama kesinlikle denemelisin! 😎\n\nhttps://boduremre.github.io/cuzdanim/",
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
-          // shared with activity type of result.activityType
         } else {
-          // shared
         }
       } else if (result.action === Share.dismissedAction) {
-        // dismissed
       }
     } catch (error) {
       alert(error.message);
     }
   };
 
-  // sayfa yüklenirken yükleniyor resm çıkar.
   if (loading) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" color="blue" />
+        <ActivityIndicator size="large" color="steelblue" />
       </View>
     );
   }
 
-  // kullanıcı şifre değiştirme
   function changePassword() {
     if (currentPassword == "" || newPassword == "") {
       alert("Gerekli alanları doldurunuz!");
     } else {
-      //şifre değiştirmek için tekrar girmek gerekiyor.
       Firebase.auth()
         .currentUser.updatePassword(newPassword)
         .then(function () {
@@ -107,11 +77,10 @@ export default function Profile({ navigation }) {
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.userInfoSection}>
+      <Card style={styles.userInfoSection}>
         <View
           style={{
             flexDirection: "row",
-            marginTop: 15,
           }}
         >
           <Avatar
@@ -131,56 +100,8 @@ export default function Profile({ navigation }) {
             </Text>
           </View>
         </View>
-      </View>
+      </Card>
 
-      <View style={styles.menuWrapper}>
-        {userRole ? (
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("Admin");
-            }}
-          >
-            <View style={styles.menuItem}>
-              <Icon name="format-annotation-plus" color="blue" size={25} />
-              <Text style={styles.menuItemText}>Kelime Ekle</Text>
-            </View>
-          </TouchableOpacity>
-        ) : (
-          <></>
-        )}
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("Favorilerim");
-          }}
-        >
-          <View style={styles.menuItem}>
-            <Icon name="heart-outline" color="blue" size={25} />
-            <Text style={styles.menuItemText}>Favori Kelimelerim</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={onShare}>
-          <View style={styles.menuItem}>
-            <Icon name="share-outline" color="blue" size={25} />
-            <Text style={styles.menuItemText}>Arkadaşlarına Tavsiye Et</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            alert("Finansal Terimler Sözlüğü v1.0");
-          }}
-        >
-          <View style={styles.menuItem}>
-            <Icon name="information-outline" color="blue" size={25} />
-            <Text style={styles.menuItemText}>Hakkında</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => signOut()}>
-          <View style={styles.menuItem}>
-            <Icon name="logout" color="blue" size={25} />
-            <Text style={styles.menuItemText}>Çıkış</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
       <Card>
         <Card.Title>Şifre Değiştir</Card.Title>
         <TextInput
@@ -207,11 +128,38 @@ export default function Profile({ navigation }) {
           style={{
             width: Dimensions.get("window").width - 75,
             height: 45,
-            marginTop: 10,
+            marginTop: 5,
           }}
         >
           <Button onPress={changePassword} title="Şifre Değiştir" />
         </View>
+      </Card>
+      <Card>
+        <Card.Title>Menü</Card.Title>
+        <TouchableOpacity onPress={onShare}>
+          <View style={styles.menuItem}>
+            <Icon name="share-variant" color="steelblue" size={25} />
+            <Text style={styles.menuItemText}>Tavsiye Et</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={async () => {
+            await WebBrowser.openBrowserAsync(
+              "https://boduremre.github.io/cuzdanim/"
+            );
+          }}
+        >
+          <View style={styles.menuItem}>
+            <Icon name="information-outline" color="steelblue" size={25} />
+            <Text style={styles.menuItemText}>Hakkında</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => signOut()}>
+          <View style={styles.menuItem}>
+            <Icon name="logout" color="steelblue" size={25} />
+            <Text style={styles.menuItemText}>Çıkış</Text>
+          </View>
+        </TouchableOpacity>
       </Card>
     </ScrollView>
   );
@@ -240,7 +188,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   caption1: {
-    fontSize: 14,
+    fontSize: 12,
     lineHeight: 28,
     fontWeight: "500",
   },
