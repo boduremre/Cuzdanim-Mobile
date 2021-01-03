@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  ToastAndroid,
   FlatList,
   SafeAreaView,
   StyleSheet,
@@ -78,6 +79,11 @@ export default function Transactions({ navigation, route }) {
           .update({ total: sum });
       });
   }, []);
+
+  // toast mesajı göster
+  const showToast = (text) => {
+    ToastAndroid.showWithGravity(text, ToastAndroid.SHORT, ToastAndroid.TOP);
+  };
 
   function listFooterComponent({ item }) {
     return (
@@ -162,7 +168,7 @@ export default function Transactions({ navigation, route }) {
                     "hesaplar/" + firebase.auth().currentUser.uid + "/" + key
                   )
                   .update({ total: total1 });
-                alert("Silme Başarılı!");
+                showToast("Hesap hareketi başarıyla silindi!");
               });
           },
         },
@@ -170,6 +176,7 @@ export default function Transactions({ navigation, route }) {
       { cancelafble: false }
     );
   }
+
   function renderItem({ item }) {
     return (
       <ListItem
