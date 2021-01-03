@@ -52,6 +52,8 @@ export default class Login extends React.Component {
         email: this.state.email,
         uid: uid,
         name: this.state.name,
+        token: "ExponentPushToken[nzTMf-IgzDsIhdx8P5OVFJ]",
+        role: "user",
       })
       .then(() => {
         Firebase.database()
