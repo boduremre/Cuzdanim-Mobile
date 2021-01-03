@@ -82,7 +82,7 @@ export default function Transactions({ navigation, route }) {
 
   // toast mesajı göster
   const showToast = (text) => {
-    ToastAndroid.showWithGravity(text, ToastAndroid.SHORT, ToastAndroid.TOP);
+    ToastAndroid.showWithGravity(text, ToastAndroid.SHORT, ToastAndroid.BOTTOM);
   };
 
   function listFooterComponent({ item }) {
@@ -135,14 +135,14 @@ export default function Transactions({ navigation, route }) {
         {
           text: "Evet",
           onPress: () => {
-            console.log(
-              "hesapHareketleri/" +
-                firebase.auth().currentUser.uid +
-                "/" +
-                key +
-                "/" +
-                item.key
-            );
+            // console.log(
+            //   "hesapHareketleri/" +
+            //     firebase.auth().currentUser.uid +
+            //     "/" +
+            //     key +
+            //     "/" +
+            //     item.key
+            // );
 
             firebase
               .database()
