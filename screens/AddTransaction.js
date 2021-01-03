@@ -12,7 +12,7 @@ import Constants from "expo-constants";
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
-    shouldPlaySound: false,
+    shouldPlaySound: true,
     shouldSetBadge: false,
   }),
 });
@@ -23,11 +23,20 @@ export default function AddTransactionScreen({ navigation, route }) {
   const [desc, setDesc] = React.useState();
 
   const [expoPushToken, setExpoPushToken] = React.useState("");
+  const [tokenn, setToken] = React.useState("");
   const [notification, setNotification] = React.useState(false);
   const notificationListener = React.useRef();
   const responseListener = React.useRef();
 
   React.useEffect(() => {
+    //kullanıcının expo push token bilgisi firebase databaseden alınıyor.
+    Firebase.database()
+      .ref("users/" + Firebase.auth().currentUser.uid + "/token")
+      .once("value", (snapshot) => {
+        var userToken = snapshot.val();
+        setToken(userToken);
+      });
+
     registerForPushNotificationsAsync().then((token) =>
       setExpoPushToken(token)
     );
@@ -83,6 +92,7 @@ export default function AddTransactionScreen({ navigation, route }) {
     showMode("date");
   };
 
+  // kaydet metodu
   const save = () => {
     var userId = Firebase.auth().currentUser.uid;
 
@@ -102,7 +112,9 @@ export default function AddTransactionScreen({ navigation, route }) {
           currency: currency,
         });
 
-        await sendPushNotification(expoPushToken, isEnabled);
+        // push notification
+        console.log(tokenn);
+        await sendPushNotification(tokenn, isEnabled);
       })
       .catch((error) => {
         console.log("error ", error);
@@ -202,11 +214,13 @@ export default function AddTransactionScreen({ navigation, route }) {
   );
 }
 
-async function schedulePushNotification() {
+async function schedulePushNotification(isEnabled1) {
   await Notifications.scheduleNotificationAsync({
     content: {
       title: "Cüzdanım 📣",
-      body: "Hesabınıza para girişi oldu!",
+      body: isEnabled1
+        ? "Hesabınıza para girişi oldu!"
+        : "Hesabınızdan para çıkışı oldu!",
       data: { data: "goes here" },
     },
     trigger: { seconds: 1 },
@@ -237,23 +251,27 @@ async function sendPushNotification(expoPushToken, isEnabled1) {
 
 async function registerForPushNotificationsAsync() {
   let token;
+
   if (Constants.isDevice) {
     const { status: existingStatus } = await Permissions.getAsync(
       Permissions.NOTIFICATIONS
     );
+
     let finalStatus = existingStatus;
     if (existingStatus !== "granted") {
       const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
       finalStatus = status;
     }
+
     if (finalStatus !== "granted") {
-      alert("Failed to get push token for push notification!");
+      alert("Push bildirimi için push belirteci alınamadı!");
       return;
     }
+
     token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
+    // console.log("Üretilen:" + token);
   } else {
-    alert("Must use physical device for Push Notifications");
+    alert("Push Bildirimleri için fiziksel cihaz kullanılmalıdır!");
   }
 
   if (Platform.OS === "android") {
