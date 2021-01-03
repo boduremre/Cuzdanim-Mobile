@@ -113,7 +113,7 @@ export default function AddTransactionScreen({ navigation, route }) {
         });
 
         // push notification
-        await sendPushNotification(tokenn, isEnabled);
+        await sendPushNotification(expoPushToken, isEnabled);
       })
       .catch((error) => {
         console.log("error ", error);
