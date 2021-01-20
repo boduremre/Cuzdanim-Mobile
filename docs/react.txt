@@ -1,0 +1,23 @@
+npm install --global expo-cli
+npm i --save react-native-vector-icons
+npm i react-native-elements --save
+expo install firebase
+npm install @react-navigation/native --save
+npm install @react-navigation/stack --save
+npm install @react-navigation/bottom-tabs --save
+npm install @react-navigation/drawer --save
+expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
+npm install react-native-paper
+expo install expo-web-browser
+npm install @react-native-community/datetimepicker --save
+expo r -c
+expo build:android
+
+var str = "Java Script Object Notation";
+var matches = str.match(/\b(\w)/g); // ['J','S','O','N']
+var acronym = matches.join(''); // JSON
+
+https://www.youtube.com/watch?v=qDah0fjjojE&feature=youtu.be
+
+https://firebase.google.com/docs/auth/web/manage-users
+https://www.instamobile.io/mobile-development/gradients-react-native/
