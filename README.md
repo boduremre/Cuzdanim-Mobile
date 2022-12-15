@@ -1,4 +1,5 @@
 # Cüzdanım Mobil Uygulaması
+### Ödev 100 puan üzerinden 100 almıştır.
 
 Sakarya Üniversitesi Bilgisayar Mühendisliği Bölümü Mobil Uygulama Geliştirme Dersi Projesi<br />
 React Native ile kodlanan Cüzdanım mobil uygulaması ile Gelir-Gider takibi yapabilirsiniz.<br />
